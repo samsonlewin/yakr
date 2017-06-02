@@ -22,7 +22,12 @@ var userSchema = mongoose.Schema({
       		},
       		"Password should be longer."
     		]
-        },
+        }, 
+        handle:{
+            type: String,
+            unique: true,
+            required: "Handle is Required"
+        }
     }
 
 });

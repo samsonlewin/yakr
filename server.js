@@ -5,6 +5,8 @@
 var express  = require('express');
 var app      = express();
 var port     = process.env.PORT || 8080;
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
@@ -28,16 +30,31 @@ app.use(bodyParser()); // get information from html forms
 
 app.set('view engine', 'ejs'); // set up ejs for templating
 
+//socket connection 
+ io.on('connection', function(socket){
+    console.log('user connected');
+    socket.on('chat message', function(msg) {
+         io.emit('chat message', msg);
+   });
+    socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
+ });
+
 // required for passport
 app.use(session({ secret: 'mysecret' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
+
+
 // routes ======================================================================
 require('./app/routes.js')(app, passport); 
 // load our routes and pass in our app and fully configured passport
 
+
+
 // launch ======================================================================
-app.listen(port);
+http.listen(port);
 console.log('The magic happens on port ' + port);
