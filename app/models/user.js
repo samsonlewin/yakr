@@ -23,11 +23,10 @@ var userSchema = mongoose.Schema({
       		"Password should be longer."
     		]
         }, 
-        handle:{
-            type: String,
-            unique: true,
-            required: "Handle is Required"
-        }
+        //handle:{
+        //    type: String,
+        //    unique: true
+        //}
     }
 
 });
@@ -43,5 +42,8 @@ userSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 };
 
+var User = mongoose.model('User', userSchema);
 // create the model for users and expose it to our app
-module.exports = mongoose.model('User', userSchema);
+module.exports = User;
+
+

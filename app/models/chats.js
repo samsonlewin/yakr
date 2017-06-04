@@ -3,14 +3,15 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var ChatSchema = new Schema({
-	title: {
+	name: {
     	type: String
   },
-  // body: a string
-  	body: {
-    	type: String
-  }, 
   	created : {
-  		type : Date.now()
+  		type : Date
   	}
 })
+
+var Chat = mongoose.model("Chat", ChatSchema);
+
+// Export the user model
+module.exports = Chat;

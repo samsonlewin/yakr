@@ -1,6 +1,9 @@
 // app/routes.js
 module.exports = function(app, passport) {
 
+var Chat = require('./models/chats.js');
+var Messages = require('./models/messages.js');
+
     // =====================================
     // HOME PAGE (with login links) ========
     // =====================================
@@ -56,7 +59,6 @@ function(){
             user : req.user // get the user out of session and pass to template
         });
     });
-
     
 
     // =====================================
@@ -66,6 +68,37 @@ function(){
         req.logout();
         res.redirect('/');
     });
+
+
+//main chat page routes
+
+    app.get('/chat', function(req, res){
+            res.render('chat.ejs', {
+        });
+    });
+
+
+    app.post('/chat', function(req,res){
+    
+    var allChat = {
+        name: req.body.name,
+        created: Date.now() 
+    }
+    var newChat = new Chat(allChat);
+
+
+    newChat.save(function(err,doc){
+        if(err){console.log(err)}
+            else{
+                console.log(doc);
+            }
+    })
+ 
+    })
+
+
+
+
 };
 
 // route middleware to make sure a user is logged in
