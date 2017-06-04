@@ -78,7 +78,8 @@ function(){
     });
 
 
-    app.post('/chat', function(req,res){
+
+    app.post('/addchat', function(req,res){
     
     var allChat = {
         name: req.body.name,
@@ -95,8 +96,45 @@ function(){
     })
  
     })
+     app.get('/api/chat', function(req, res){
+        Chat.find({}, function(err, doc){
+            if(err){
+                console.log(err)
+            }
+            else{
+                console.log(doc)
+                res.send(doc)
+            }
+        })
+    })
 
 
+
+
+    app.post('/addmessages', function(req,res){
+
+       var allMessages = {
+           created: Date.now(),
+            content: res.msg
+        }
+    var newMessage = new Messages(allMessages);
+    newMessage.save(function(err,doc){
+        if(err){console.log(err)}
+            else{
+                res.send(doc)
+            }
+    })
+    })
+
+    app.get('/api/messages', function(req,res){
+        Messages.find({},function(err,doc){
+            if(err){console.log(err)}
+                else
+                {
+                    res.send(doc);
+                }
+        })
+    })
 
 
 };

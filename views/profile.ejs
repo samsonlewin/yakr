@@ -5,7 +5,6 @@
     <title>Chat</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-
 </head>
 <body>
 <div class="container">
@@ -17,29 +16,52 @@
         <a href="/logout" class="btn btn-default btn-sm">Logout</a>
     </div>
 
-    <form action="/chat" method="post">
+    <form action="/addchat" method="post">
 
         <div class="form-group">
             <label>Add a Chat</label>
             <input type="text" class="form-control" name="name">
         </div>
 
-        <button type="submit" class="btn btn-warning btn-lg">Add Chat</button>
+        <button type="submit" id="submit_btn" class="btn btn-warning btn-lg">Add Chat</button>
         
     </form>
+
+    <div id="chat_box"></div>
 
     <div>
       <a href="/chat" class="btn btn-default btn-sm">chat 1</a>
     </div>
 
-    <div>
-      <a href="/chat" class="btn btn-default btn-sm">chat 2</a>
-    </div>
-
-    <div>
-      <a href="/chat" class="btn btn-default btn-sm">chat 3</a>
-    </div>
 
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+    $.get("/api/chat",function(data){
+        //console.log(data)
+        for (var i=0; i<data.length;i++){
+        getChats(data[i]);
+
+    }
+
+    })
+
+
+    function getChats (data){
+        var Newchat = $("<a href=/chat?id="+data._id+"></a>");
+        var chatName = $("<h3>");
+        chatName.addClass("chat_name");
+        chatName.text(data.name)
+        Newchat.append(chatName);
+        $("#chat_box").append(Newchat); 
+        console.log(window.location.search);
+
+        
+        
+
+    };
+
+</script>
 </body>
 </html>
