@@ -4,6 +4,7 @@ module.exports = function(app, passport) {
 var Chat = require('./models/chats.js');
 var Messages = require('./models/messages.js');
 
+
     // =====================================
     // HOME PAGE (with login links) ========
     // =====================================
@@ -108,20 +109,52 @@ function(){
         })
     })
 
+app.get("/api/chat/:id", function(req, res) {
 
+  // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
+  Chat.findOne({ "_id": req.params.id }, function(err,doc){
+    console.log("your chat is"+req.params.id)
+    if(err){console.log(err)}
+        else{
+            res.json(doc)
+        }
+  })
+  // ..and populate all of the notes associated with it
+  // now, execute our query
+  //.exec(function(error, doc) {
+    // Log any errors
+  //  if (error) {
+   //   console.log(error);
+  //  }
+    // Otherwise, send the doc to the browser as a json object
+  //  else {
+   //   res.json(doc);
+   // }
+  //});
+});
 
 
     app.post('/addmessages', function(req,res){
-
        var allMessages = {
            created: Date.now(),
-            content: res.msg
+            content: req.body.content
         }
+        console.log(allMessages);
     var newMessage = new Messages(allMessages);
+
     newMessage.save(function(err,doc){
         if(err){console.log(err)}
             else{
-                res.send(doc)
+                console.log("this is docs: ", doc);
+                Chat.findOneAndUpdate({_id:req.body._id}, {$push: {"messages": doc.content}}, function(err,newdoc){
+                    if(err){console.log(err)}
+                        else
+                        {
+                    res.send(newdoc);
+                        }
+                }) 
+
+
             }
     })
     })

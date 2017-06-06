@@ -32,14 +32,35 @@
       $('#m').val('');
       return false;
     });
+
+      var str = window.location.search
+      var slc = str.slice(4);
+      console.log(slc);
+      
     socket.on('chat message', function(msg){
 
-    $.post('addmessages', function(data){
-      console.log(msg)
+
+
+    $.post('/addmessages', 
+      {_id: slc,
+      content: msg},
+     function(data){
+     console.log(data)
+    })
+
+    });
+
+    $.get('/api/chat/'+slc , function(data){
+      console.log(slc)
+      console.log("this is the chats", data);
+    }).done(function(data){
+      for (var i=0;i<data.messages.length;i++){
+      $('#messages').append($('<li>').text(data.messages[i]));  
+      }
       
     })
-      $('#messages').append($('<li>').text(msg));
-    });
+      
+    
   });
 
 

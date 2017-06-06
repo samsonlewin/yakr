@@ -29,10 +29,6 @@
 
     <div id="chat_box"></div>
 
-    <div>
-      <a href="/chat" class="btn btn-default btn-sm">chat 1</a>
-    </div>
-
 
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -42,7 +38,6 @@
         //console.log(data)
         for (var i=0; i<data.length;i++){
         getChats(data[i]);
-
     }
 
     })
@@ -55,7 +50,6 @@
         chatName.text(data.name)
         Newchat.append(chatName);
         $("#chat_box").append(Newchat); 
-        console.log(window.location.search);
 
         
         

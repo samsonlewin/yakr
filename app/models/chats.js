@@ -9,15 +9,22 @@ var ChatSchema = new Schema({
   	created : {
   		type : Date
   	},
-  	messages : [{
+  	messages : [
+    {
     // Store ObjectIds in the array
-    type: Schema.Types.ObjectId,
+    //type: Schema.Types.ObjectId,
+    type: String, 
     // The ObjectIds will refer to the ids in the Note model
     ref: "Messages"
-  }]
+  }
+
+  ]
 })
 
 var Chat = mongoose.model("Chat", ChatSchema);
 
 // Export the user model
 module.exports = Chat;
+
+
+
